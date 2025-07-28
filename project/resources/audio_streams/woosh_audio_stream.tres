@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=3 format=3 uid="uid://b8ofu8eagh801"]
+
+[ext_resource type="AudioStream" uid="uid://f5jf8qnjha8d" path="res://assets/audio/woosh4.ogg" id="1_ibggu"]
+[ext_resource type="AudioStream" uid="uid://u67gpx50t7wj" path="res://assets/audio/woosh5.ogg" id="2_14574"]
+
+[resource]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 2
+stream_0/stream = ExtResource("1_ibggu")
+stream_1/stream = ExtResource("2_14574")

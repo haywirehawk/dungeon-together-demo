@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyGroup" load_steps=5 format=3 uid="uid://bc26u622gnlqq"]
+
+[ext_resource type="PackedScene" uid="uid://wm6kek8gew4r" path="res://scenes/entities/enemy/rat/rat.tscn" id="1_vtsxm"]
+[ext_resource type="PackedScene" uid="uid://d055b30juorq6" path="res://scenes/entities/enemy/archer/archer.tscn" id="2_lrkh2"]
+[ext_resource type="PackedScene" uid="uid://bf5ooyi0qb45o" path="res://scenes/entities/enemy/floating_enemies/bat/bat.tscn" id="3_eic8k"]
+[ext_resource type="Script" uid="uid://xr4asngh2kx3" path="res://resources/enemy_groups/enemy_group.gd" id="4_1at0i"]
+
+[resource]
+script = ExtResource("4_1at0i")
+id = "basic_enemies"
+enemies = Dictionary[PackedScene, int]({
+ExtResource("1_vtsxm"): 20,
+ExtResource("2_lrkh2"): 5,
+ExtResource("3_eic8k"): 10
+})
+metadata/_custom_type_script = "uid://xr4asngh2kx3"

@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0bpjakelw3q7"]
+
+[ext_resource type="PackedScene" uid="uid://1qn0jxgmvkke" path="res://scenes/game_objects/attacks/projectile/projectile.tscn" id="1_o6k6j"]
+[ext_resource type="Shader" uid="uid://ccyunvakoiwdp" path="res://resources/shaders/entity_outline.gdshader" id="2_0xq14"]
+[ext_resource type="Texture2D" uid="uid://ci42daclhvmu0" path="res://assets/tilesets/monochrome-transparent.png" id="2_ougm8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y2ocq"]
+resource_local_to_scene = true
+shader = ExtResource("2_0xq14")
+shader_parameter/outline_color = Color(0.901961, 0.282353, 0.180392, 1)
+shader_parameter/modulate_color = Color(0.956863, 0.705882, 0.105882, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ougm8"]
+atlas = ExtResource("2_ougm8")
+region = Rect2(493, 187, 16, 16)
+
+[node name="Fireball" instance=ExtResource("1_o6k6j")]
+speed = 200
+rotation_correction = 2.356
+
+[node name="Sprite2D" parent="." index="2"]
+modulate = Color(0.901961, 0.282353, 0.180392, 1)
+material = SubResource("ShaderMaterial_y2ocq")
+texture = SubResource("AtlasTexture_ougm8")

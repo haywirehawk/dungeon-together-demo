@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UpgradePack" load_steps=6 format=3 uid="uid://36iq8y42hoso"]
+
+[ext_resource type="Script" uid="uid://bvdwb32lirvms" path="res://resources/upgrades/upgrade_resource.gd" id="1_soy4d"]
+[ext_resource type="Resource" uid="uid://cu75khm1htjyf" path="res://resources/upgrades/attack_rate.tres" id="2_gywna"]
+[ext_resource type="Resource" uid="uid://c2yp2cnoths6m" path="res://resources/upgrades/damage.tres" id="3_a2710"]
+[ext_resource type="Resource" uid="uid://dae0dpvg30opy" path="res://resources/upgrades/movement_speed.tres" id="4_da2x2"]
+[ext_resource type="Script" uid="uid://bso0ubc5j2own" path="res://resources/upgrades/packs/upgrade_pack.gd" id="5_2hips"]
+
+[resource]
+script = ExtResource("5_2hips")
+id = "basic_pack"
+included_upgrades = Array[ExtResource("1_soy4d")]([ExtResource("2_gywna"), ExtResource("3_a2710"), ExtResource("4_da2x2")])
+display_name = "Basic Upgrades"
+description = "test"
+metadata/_custom_type_script = "uid://bso0ubc5j2own"

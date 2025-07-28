@@ -1,0 +1,93 @@
+[gd_scene load_steps=8 format=3 uid="uid://3q34anjvpg0"]
+
+[ext_resource type="Script" uid="uid://meloh7qnqjhr" path="res://scenes/ui/player_color_picker/color_picker_container.gd" id="1_xi37i"]
+[ext_resource type="Shader" uid="uid://ccyunvakoiwdp" path="res://resources/shaders/entity_outline.gdshader" id="2_sr7xw"]
+[ext_resource type="SpriteFrames" uid="uid://dhv86p7cdg0ay" path="res://resources/character_sets/character_a_sprite_frames.tres" id="3_qn5f7"]
+[ext_resource type="SpriteFrames" uid="uid://x6p77n1qjwf8" path="res://resources/character_sets/character_b_sprite_frames.tres" id="4_nt8tn"]
+[ext_resource type="SpriteFrames" uid="uid://dt06n400xyk27" path="res://resources/character_sets/character_c_sprite_frames.tres" id="5_bdpmr"]
+[ext_resource type="SpriteFrames" uid="uid://ov5soqrsb5vc" path="res://resources/character_sets/character_d_sprite_frames.tres" id="6_bdpmr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nt8tn"]
+shader = ExtResource("2_sr7xw")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(1, 1, 1, 1)
+
+[node name="ColorPickerContainer" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_xi37i")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ChosenColorViewer" type="AnimatedSprite2D" parent="Control"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_nt8tn")
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("3_qn5f7")
+animation = &"move"
+autoplay = "move"
+frame_progress = 0.882171
+offset = Vector2(8, 8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ControlA" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CharacterSetA" type="AnimatedSprite2D" parent="VBoxContainer/ControlA"]
+material = SubResource("ShaderMaterial_nt8tn")
+sprite_frames = ExtResource("3_qn5f7")
+centered = false
+
+[node name="ControlB" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CharacterSetB" type="AnimatedSprite2D" parent="VBoxContainer/ControlB"]
+material = SubResource("ShaderMaterial_nt8tn")
+sprite_frames = ExtResource("4_nt8tn")
+centered = false
+
+[node name="ControlC" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CharacterSetC" type="AnimatedSprite2D" parent="VBoxContainer/ControlC"]
+material = SubResource("ShaderMaterial_nt8tn")
+sprite_frames = ExtResource("5_bdpmr")
+centered = false
+
+[node name="ControlD" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CharacterSetD" type="AnimatedSprite2D" parent="VBoxContainer/ControlD"]
+material = SubResource("ShaderMaterial_nt8tn")
+sprite_frames = ExtResource("6_bdpmr")
+centered = false
+
+[node name="AnimationTimer" type="Timer" parent="."]
+autostart = true

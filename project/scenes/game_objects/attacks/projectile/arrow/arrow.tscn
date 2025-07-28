@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://c2bhr20hgoyun"]
+
+[ext_resource type="PackedScene" uid="uid://1qn0jxgmvkke" path="res://scenes/game_objects/attacks/projectile/projectile.tscn" id="1_k7cle"]
+[ext_resource type="Script" uid="uid://cpdi54a5tttv5" path="res://scenes/game_objects/attacks/projectile/arrow/arrow.gd" id="2_1jkal"]
+[ext_resource type="Texture2D" uid="uid://ci42daclhvmu0" path="res://assets/tilesets/monochrome-transparent.png" id="2_ofcdw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xq14"]
+atlas = ExtResource("2_ofcdw")
+region = Rect2(680, 85, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1jkal"]
+radius = 8.0
+
+[node name="Arrow" instance=ExtResource("1_k7cle")]
+script = ExtResource("2_1jkal")
+speed = 400
+rotation_correction = 0.785
+
+[node name="Sprite2D" parent="." index="2"]
+texture = SubResource("AtlasTexture_0xq14")
+
+[node name="CollisionShape2D2" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_1jkal")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://b22fa0171o5wd"]
+
+[ext_resource type="Script" uid="uid://jgji0j8lb6vu" path="res://scenes/autoloads/cursor.gd" id="1_fctsm"]
+[ext_resource type="Texture2D" uid="uid://ci42daclhvmu0" path="res://assets/tilesets/monochrome-transparent.png" id="2_fctsm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tfl44"]
+atlas = ExtResource("2_fctsm")
+region = Rect2(323, 238, 16, 16)
+
+[node name="Cursor" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+script = ExtResource("1_fctsm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_tfl44")

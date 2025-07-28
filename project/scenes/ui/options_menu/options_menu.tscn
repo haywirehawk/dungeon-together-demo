@@ -1,0 +1,194 @@
+[gd_scene load_steps=4 format=3 uid="uid://b80ylttiln1rp"]
+
+[ext_resource type="PackedScene" uid="uid://cwha0gd5rys1p" path="res://scenes/autoloads/background.tscn" id="1_7iv5r"]
+[ext_resource type="Script" uid="uid://beyn5g54ayhde" path="res://scenes/ui/options_menu/options_menu.gd" id="1_r4unu"]
+[ext_resource type="FontFile" uid="uid://nq18mb6fhq23" path="res://resources/fonts/KarenFat.ttf" id="3_kyv63"]
+
+[node name="OptionsMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 5
+script = ExtResource("1_r4unu")
+
+[node name="Background" parent="." instance=ExtResource("1_7iv5r")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_kyv63")
+theme_override_font_sizes/font_size = 32
+text = "OPTIONS"
+horizontal_alignment = 1
+
+[node name="MasterVolumeContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+
+[node name="MasterDownButton" type="Button" parent="MarginContainer/VBoxContainer/MasterVolumeContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 8
+text = "-"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MasterVolumeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MasterLabel" type="Label" parent="MarginContainer/VBoxContainer/MasterVolumeContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 4
+text = "MASTER VOLUME"
+horizontal_alignment = 1
+
+[node name="MasterProgressBar" type="HSlider" parent="MarginContainer/VBoxContainer/MasterVolumeContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 0.5
+
+[node name="MasterUpButton" type="Button" parent="MarginContainer/VBoxContainer/MasterVolumeContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 8
+text = "+"
+
+[node name="SFXContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+
+[node name="SFXDownButton" type="Button" parent="MarginContainer/VBoxContainer/SFXContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 8
+text = "-"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/SFXContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SFXLabel" type="Label" parent="MarginContainer/VBoxContainer/SFXContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 4
+text = "SFX VOLUME"
+horizontal_alignment = 1
+
+[node name="SFXProgressBar" type="HSlider" parent="MarginContainer/VBoxContainer/SFXContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 0.5
+
+[node name="SFXUpButton" type="Button" parent="MarginContainer/VBoxContainer/SFXContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 8
+text = "+"
+
+[node name="MusicContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+
+[node name="MusicDownButton" type="Button" parent="MarginContainer/VBoxContainer/MusicContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 8
+text = "-"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MusicContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MusicLabel" type="Label" parent="MarginContainer/VBoxContainer/MusicContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 4
+text = "MUSIC VOLUME"
+horizontal_alignment = 1
+
+[node name="MusicProgressBar" type="HSlider" parent="MarginContainer/VBoxContainer/MusicContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 0.5
+
+[node name="MusicUpButton" type="Button" parent="MarginContainer/VBoxContainer/MusicContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 8
+text = "+"
+
+[node name="FullscreenContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/FullscreenContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/outline_size = 4
+text = "WINDOW MODE"
+horizontal_alignment = 1
+
+[node name="FullscreenButton" type="Button" parent="MarginContainer/VBoxContainer/FullscreenContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Change to Fullscreen"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ExitContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+
+[node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/ExitContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "CONFIRM"
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/ExitContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "CANCEL"
+
+[node name="DefaultButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "RESET TO DEFAULT"

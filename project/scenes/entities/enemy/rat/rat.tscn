@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=3 uid="uid://wm6kek8gew4r"]
+
+[ext_resource type="PackedScene" uid="uid://dklgqdynioec2" path="res://scenes/entities/enemy/enemy.tscn" id="1_5w005"]
+[ext_resource type="Script" uid="uid://ch8g3sereipos" path="res://scenes/entities/enemy/rat/rat.gd" id="2_a17xm"]
+[ext_resource type="Texture2D" uid="uid://ci42daclhvmu0" path="res://assets/tilesets/monochrome-transparent.png" id="2_lvfaf"]
+
+[sub_resource type="Shader" id="Shader_lvfaf"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform float percent : hint_range(0.0, 1.0, 0.1);
+uniform vec4 outline_color : source_color;
+uniform vec4 modulate_color: source_color = vec4(1.0);
+
+void fragment(){
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV) * modulate_color;
+	float alpha = -8.0 * sprite_color.a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, -size_y)).a;
+	vec4 final_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	vec4 outlined_texture = vec4(final_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	vec4 white_color = vec4(1.0, 1.0, 1.0, outlined_texture.a);
+	COLOR = mix(outlined_texture, white_color, percent);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a17xm"]
+resource_local_to_scene = true
+shader = SubResource("Shader_lvfaf")
+shader_parameter/percent = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(0.901961, 0.282353, 0.180392, 1)
+
+[sub_resource type="Shader" id="Shader_4v40d"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform float percent : hint_range(0.0, 1.0, 0.1);
+uniform vec4 outline_color : source_color;
+uniform vec4 modulate_color: source_color = vec4(1.0);
+
+void fragment(){
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV) * modulate_color;
+	float alpha = -8.0 * sprite_color.a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, -size_y)).a;
+	vec4 final_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	vec4 outlined_texture = vec4(final_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	vec4 white_color = vec4(1.0, 1.0, 1.0, outlined_texture.a);
+	COLOR = mix(outlined_texture, white_color, percent);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4v40d"]
+resource_local_to_scene = true
+shader = SubResource("Shader_4v40d")
+shader_parameter/percent = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(0.74902, 0.47451, 0.345098, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sodin"]
+atlas = ExtResource("2_lvfaf")
+region = Rect2(527, 136, 16, 16)
+
+[node name="Rat" instance=ExtResource("1_5w005")]
+script = ExtResource("2_a17xm")
+move_speed = 30.0
+dash_attack_speed = 240.0
+target_distance = 50.0
+
+[node name="AlertSprite" parent="." index="7"]
+material = SubResource("ShaderMaterial_a17xm")
+
+[node name="HitFlashSpriteComponent" parent="Visuals" index="1"]
+material = SubResource("ShaderMaterial_4v40d")
+texture = SubResource("AtlasTexture_sodin")

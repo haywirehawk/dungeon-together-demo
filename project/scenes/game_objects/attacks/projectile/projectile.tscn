@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://1qn0jxgmvkke"]
+
+[ext_resource type="Script" uid="uid://cd62vxpqcg1c6" path="res://scenes/game_objects/attacks/projectile/projectile.gd" id="1_ygcg7"]
+[ext_resource type="Texture2D" uid="uid://w88incohudh1" path="res://scenes/game_objects/attacks/projectile/bullet.png" id="2_tg4v0"]
+[ext_resource type="PackedScene" uid="uid://cvd41b1v6mxef" path="res://scenes/components/hitbox_component.tscn" id="3_finsb"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hyl08"]
+properties/0/path = NodePath(".:global_position")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+properties/2/path = NodePath(".:direction")
+properties/2/spawn = true
+properties/2/replication_mode = 0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vawys"]
+
+[node name="Projectile" type="Node2D"]
+script = ExtResource("1_ygcg7")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hyl08")
+
+[node name="LifeTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tg4v0")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("3_finsb")]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("CircleShape2D_vawys")

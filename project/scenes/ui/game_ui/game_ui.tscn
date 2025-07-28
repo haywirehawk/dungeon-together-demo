@@ -1,0 +1,325 @@
+[gd_scene load_steps=10 format=3 uid="uid://ck57twspucmjh"]
+
+[ext_resource type="Script" uid="uid://cfnfejyychi8w" path="res://scenes/ui/game_ui/game_ui.gd" id="1_sqq8g"]
+[ext_resource type="Script" uid="uid://bw0k6sy2is2s8" path="res://scenes/ui/game_ui/player_info_container.gd" id="2_2lwfb"]
+[ext_resource type="Texture2D" uid="uid://bi3al2pxb2arp" path="res://assets/ui/portrait2.png" id="2_8cfus"]
+[ext_resource type="Texture2D" uid="uid://cgmc6b2s2n62p" path="res://assets/ui/portrait_clip_mask2.png" id="3_2lwfb"]
+[ext_resource type="Shader" uid="uid://ccyunvakoiwdp" path="res://resources/shaders/entity_outline.gdshader" id="4_8cfus"]
+[ext_resource type="SpriteFrames" uid="uid://dhv86p7cdg0ay" path="res://resources/character_sets/character_a_sprite_frames.tres" id="5_2lwfb"]
+[ext_resource type="FontFile" uid="uid://nq18mb6fhq23" path="res://resources/fonts/KarenFat.ttf" id="7_dqr6q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqr6q"]
+resource_local_to_scene = true
+shader = ExtResource("4_8cfus")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jnlcf"]
+resource_local_to_scene = true
+shader = ExtResource("4_8cfus")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(1, 1, 1, 1)
+
+[node name="GameUI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_sqq8g")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 8
+
+[node name="ReadyUpContainer" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="ReadyLabel" type="Label" parent="MarginContainer/ReadyUpContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0901961, 0.729412, 0.490196, 1)
+theme_override_constants/outline_size = 4
+text = "READY"
+horizontal_alignment = 1
+
+[node name="NotReadyLabel" type="Label" parent="MarginContainer/ReadyUpContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_constants/outline_size = 4
+text = "PRESS \"R\" TO READY UP"
+horizontal_alignment = 1
+
+[node name="ReadyCountLabel" type="Label" parent="MarginContainer/ReadyUpContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 4
+text = "1/4 PLAYERS READY"
+horizontal_alignment = 1
+
+[node name="PlayerInfoContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="LocalPlayerContainer" type="HBoxContainer" parent="MarginContainer/PlayerInfoContainer" node_paths=PackedStringArray("player_sprite", "display_name", "health_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+script = ExtResource("2_2lwfb")
+player_sprite = NodePath("ProfileRect/Mask/PlayerSprite0")
+display_name = NodePath("VBoxContainer/DisplayNameLabel")
+health_bar = NodePath("VBoxContainer/HealthProgressBar")
+
+[node name="ProfileRect" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/LocalPlayerContainer"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+texture = ExtResource("2_8cfus")
+
+[node name="Mask" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/LocalPlayerContainer/ProfileRect"]
+clip_children = 1
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("3_2lwfb")
+
+[node name="PlayerSprite0" type="AnimatedSprite2D" parent="MarginContainer/PlayerInfoContainer/LocalPlayerContainer/ProfileRect/Mask"]
+material = SubResource("ShaderMaterial_dqr6q")
+position = Vector2(12, 8)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("5_2lwfb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PlayerInfoContainer/LocalPlayerContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="DisplayNameLabel" type="Label" parent="MarginContainer/PlayerInfoContainer/LocalPlayerContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_dqr6q")
+text = "Player One"
+
+[node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/PlayerInfoContainer/LocalPlayerContainer/VBoxContainer"]
+custom_minimum_size = Vector2(96, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="RemotePlayerContainer1" type="HBoxContainer" parent="MarginContainer/PlayerInfoContainer" node_paths=PackedStringArray("player_sprite", "display_name", "health_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+script = ExtResource("2_2lwfb")
+player_sprite = NodePath("ProfileRect/Mask/PlayerSprite1")
+display_name = NodePath("VBoxContainer/DisplayNameLabel1")
+health_bar = NodePath("VBoxContainer/HealthProgressBar1")
+
+[node name="ProfileRect" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+texture = ExtResource("2_8cfus")
+
+[node name="Mask" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer1/ProfileRect"]
+clip_children = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("3_2lwfb")
+
+[node name="PlayerSprite1" type="AnimatedSprite2D" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer1/ProfileRect/Mask"]
+material = SubResource("ShaderMaterial_jnlcf")
+position = Vector2(8, 8)
+sprite_frames = ExtResource("5_2lwfb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer1"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="DisplayNameLabel1" type="Label" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer1/VBoxContainer"]
+layout_mode = 2
+text = "Player Two"
+
+[node name="HealthProgressBar1" type="ProgressBar" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer1/VBoxContainer"]
+custom_minimum_size = Vector2(96, 4)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="RemotePlayerContainer2" type="HBoxContainer" parent="MarginContainer/PlayerInfoContainer" node_paths=PackedStringArray("player_sprite", "display_name", "health_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+script = ExtResource("2_2lwfb")
+player_sprite = NodePath("ProfileRect/Mask/PlayerSprite2")
+display_name = NodePath("VBoxContainer/DisplayNameLabel2")
+health_bar = NodePath("VBoxContainer/HealthProgressBar2")
+
+[node name="ProfileRect" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer2"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+texture = ExtResource("2_8cfus")
+
+[node name="Mask" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer2/ProfileRect"]
+clip_children = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("3_2lwfb")
+
+[node name="PlayerSprite2" type="AnimatedSprite2D" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer2/ProfileRect/Mask"]
+material = SubResource("ShaderMaterial_jnlcf")
+position = Vector2(8, 8)
+sprite_frames = ExtResource("5_2lwfb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer2"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="DisplayNameLabel2" type="Label" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Player Three"
+
+[node name="HealthProgressBar2" type="ProgressBar" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(96, 4)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="RemotePlayerContainer3" type="HBoxContainer" parent="MarginContainer/PlayerInfoContainer" node_paths=PackedStringArray("player_sprite", "display_name", "health_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+script = ExtResource("2_2lwfb")
+player_sprite = NodePath("ProfileRect/Mask/PlayerSprite3")
+display_name = NodePath("VBoxContainer/DisplayNameLabel3")
+health_bar = NodePath("VBoxContainer/HealthProgressBar3")
+
+[node name="ProfileRect" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer3"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+texture = ExtResource("2_8cfus")
+
+[node name="Mask" type="TextureRect" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer3/ProfileRect"]
+clip_children = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("3_2lwfb")
+
+[node name="PlayerSprite3" type="AnimatedSprite2D" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer3/ProfileRect/Mask"]
+material = SubResource("ShaderMaterial_jnlcf")
+position = Vector2(8, 8)
+sprite_frames = ExtResource("5_2lwfb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer3"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="DisplayNameLabel3" type="Label" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer3/VBoxContainer"]
+layout_mode = 2
+text = "Player Four"
+
+[node name="HealthProgressBar3" type="ProgressBar" parent="MarginContainer/PlayerInfoContainer/RemotePlayerContainer3/VBoxContainer"]
+custom_minimum_size = Vector2(96, 4)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="RoundInfoContainer" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="RoundLabel" type="Label" parent="MarginContainer/RoundInfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 4
+text = "Round 1"
+
+[node name="TimerLabel" type="Label" parent="MarginContainer/RoundInfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 4
+text = "30"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpgradeInfoContainer" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="UpgradeLabel" type="Label" parent="MarginContainer/UpgradeInfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 4
+text = "Choose an Upgrade"
+
+[node name="UpgradeCountLabel" type="Label" parent="MarginContainer/UpgradeInfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 4
+text = "1/4 PLAYERS READY"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2eg4k27l7r3x"]
+
+[ext_resource type="Script" uid="uid://cacul4o3eteyr" path="res://scenes/managers/enemy_manager.gd" id="1_tfsap"]
+[ext_resource type="PackedScene" uid="uid://d055b30juorq6" path="res://scenes/entities/enemy/archer/archer.tscn" id="2_t8wtq"]
+[ext_resource type="Resource" uid="uid://bbjwj8vc2jlae" path="res://resources/enemy_groups/basic_enemies.tres" id="3_ks00d"]
+
+[node name="EnemyManager" type="Node"]
+script = ExtResource("1_tfsap")
+enemy_scene = ExtResource("2_t8wtq")
+starting_enemy_group = ExtResource("3_ks00d")
+
+[node name="RoundTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpawnIntervalTimer" type="Timer" parent="."]
+one_shot = true

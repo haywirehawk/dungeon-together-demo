@@ -1,0 +1,95 @@
+[gd_scene load_steps=10 format=3 uid="uid://d055b30juorq6"]
+
+[ext_resource type="PackedScene" uid="uid://dklgqdynioec2" path="res://scenes/entities/enemy/enemy.tscn" id="1_q2xh6"]
+[ext_resource type="Texture2D" uid="uid://ci42daclhvmu0" path="res://assets/tilesets/monochrome-transparent.png" id="2_451dg"]
+[ext_resource type="Script" uid="uid://dh8fht4llnych" path="res://scenes/entities/enemy/archer/archer.gd" id="2_a1meo"]
+[ext_resource type="PackedScene" uid="uid://c2bhr20hgoyun" path="res://scenes/game_objects/attacks/projectile/arrow/arrow.tscn" id="3_a1meo"]
+
+[sub_resource type="Shader" id="Shader_a1meo"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform float percent : hint_range(0.0, 1.0, 0.1);
+uniform vec4 outline_color : source_color;
+uniform vec4 modulate_color: source_color = vec4(1.0);
+
+void fragment(){
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV) * modulate_color;
+	float alpha = -8.0 * sprite_color.a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, -size_y)).a;
+	vec4 final_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	vec4 outlined_texture = vec4(final_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	vec4 white_color = vec4(1.0, 1.0, 1.0, outlined_texture.a);
+	COLOR = mix(outlined_texture, white_color, percent);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0j6r"]
+resource_local_to_scene = true
+shader = SubResource("Shader_a1meo")
+shader_parameter/percent = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(0.901961, 0.282353, 0.180392, 1)
+
+[sub_resource type="Shader" id="Shader_77ae6"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform float percent : hint_range(0.0, 1.0, 0.1);
+uniform vec4 outline_color : source_color;
+uniform vec4 modulate_color: source_color = vec4(1.0);
+
+void fragment(){
+	float size_x = 1.0/float(textureSize(TEXTURE, 0).x);
+	float size_y = 1.0/float(textureSize(TEXTURE, 0).y);
+	vec4 sprite_color = texture(TEXTURE, UV) * modulate_color;
+	float alpha = -8.0 * sprite_color.a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, 0)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(0, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(-size_x, -size_y)).a;
+	alpha += texture(TEXTURE, UV + vec2(size_x, -size_y)).a;
+	vec4 final_color = mix(sprite_color, outline_color, clamp(alpha, 0.0, 1.0));
+	vec4 outlined_texture = vec4(final_color.rgb, clamp(abs(alpha) + sprite_color.a, 0.0, 1.0));
+	vec4 white_color = vec4(1.0, 1.0, 1.0, outlined_texture.a);
+	COLOR = mix(outlined_texture, white_color, percent);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_frkcr"]
+resource_local_to_scene = true
+shader = SubResource("Shader_77ae6")
+shader_parameter/percent = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfm16"]
+atlas = ExtResource("2_451dg")
+region = Rect2(510, 153, 16, 16)
+
+[node name="Archer" instance=ExtResource("1_q2xh6")]
+script = ExtResource("2_a1meo")
+projectile_scene = ExtResource("3_a1meo")
+attack_type = 1
+movement_damping = 18.0
+move_speed = 25.0
+near_target_distance = 80.0
+target_distance = 120.0
+
+[node name="AlertSprite" parent="." index="7"]
+material = SubResource("ShaderMaterial_v0j6r")
+
+[node name="HitFlashSpriteComponent" parent="Visuals" index="1"]
+material = SubResource("ShaderMaterial_frkcr")
+texture = SubResource("AtlasTexture_rfm16")
+offset = Vector2(-8, -16)

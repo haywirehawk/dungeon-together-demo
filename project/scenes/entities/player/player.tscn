@@ -1,0 +1,327 @@
+[gd_scene load_steps=26 format=3 uid="uid://kdgtvcxs8ox4"]
+
+[ext_resource type="Script" uid="uid://c6hq0ajqjlx54" path="res://scenes/entities/player/player.gd" id="1_1hmtu"]
+[ext_resource type="PackedScene" uid="uid://dt8k23lc8r4lt" path="res://scenes/components/player_input_synchronizer_component.tscn" id="2_635qg"]
+[ext_resource type="PackedScene" uid="uid://bp8s8r2vsohgh" path="res://scenes/components/health_component.tscn" id="3_8akj5"]
+[ext_resource type="AudioStream" uid="uid://b8ofu8eagh801" path="res://resources/audio_streams/woosh_audio_stream.tres" id="4_ovg4i"]
+[ext_resource type="AudioStream" uid="uid://ghfubawmoc77" path="res://resources/audio_streams/hit_audio_stream.tres" id="5_7wli1"]
+[ext_resource type="Texture2D" uid="uid://ci42daclhvmu0" path="res://assets/tilesets/monochrome-transparent.png" id="6_7wli1"]
+[ext_resource type="PackedScene" uid="uid://dniiamg0dyruo" path="res://scenes/components/hurtbox_component.tscn" id="6_bj7e2"]
+[ext_resource type="Texture2D" uid="uid://dovj754acrlq3" path="res://assets/effects/shadow.png" id="7_j0oqr"]
+[ext_resource type="Texture2D" uid="uid://bm2q5smrouq1p" path="res://assets/ui/progress_bar_fill.png" id="10_7wli1"]
+[ext_resource type="Script" uid="uid://bfus1hbb3volt" path="res://scenes/entities/player/player_state_machine.tres.gd" id="10_ovg4i"]
+[ext_resource type="Shader" uid="uid://ccyunvakoiwdp" path="res://resources/shaders/entity_outline.gdshader" id="15_pcd0u"]
+[ext_resource type="SpriteFrames" uid="uid://dhv86p7cdg0ay" path="res://resources/character_sets/character_a_sprite_frames.tres" id="15_yywfu"]
+
+[sub_resource type="Animation" id="Animation_5sj0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/PlayerSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1murt"]
+resource_name = "run"
+length = 0.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/PlayerSprite:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0875, 0.275),
+"transitions": PackedFloat32Array(1, 1.25, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 1.2), Vector2(1.1, 0.9)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ovg4i"]
+_data = {
+&"RESET": SubResource("Animation_5sj0x"),
+&"run": SubResource("Animation_1murt")
+}
+
+[sub_resource type="Animation" id="Animation_bj7e2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/PlayerSprite/WeaponRoot/WeaponAnimationRoot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/PlayerSprite/WeaponRoot/WeaponAnimationRoot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_8akj5"]
+resource_name = "fire"
+length = 0.15
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/PlayerSprite/WeaponRoot/WeaponAnimationRoot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.075, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.75, 1.25), Vector2(1.15, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/PlayerSprite/WeaponRoot/WeaponAnimationRoot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.075, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.261799, 0.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bj7e2"]
+_data = {
+&"RESET": SubResource("Animation_bj7e2"),
+&"fire": SubResource("Animation_8akj5")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_635qg"]
+properties/0/path = NodePath(".:global_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("HealthComponent:current_health")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8akj5"]
+radius = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knby6"]
+atlas = ExtResource("6_7wli1")
+region = Rect2(408, 357, 16, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w3p2j"]
+resource_local_to_scene = true
+shader = ExtResource("15_pcd0u")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/modulate_color = Color(1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1hmtu"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_knby6"]
+radius = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j0oqr"]
+texture = ExtResource("10_7wli1")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("1_1hmtu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ovg4i")
+}
+
+[node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_bj7e2")
+}
+
+[node name="PlayerInputSynchronizerComponent" parent="." node_paths=PackedStringArray("aim_root") instance=ExtResource("2_635qg")]
+aim_root = NodePath("../Visuals/PlayerSprite")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_635qg")
+
+[node name="UsableEquipment" type="Node" parent="."]
+
+[node name="PassiveEquipment" type="Node" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_8akj5")]
+max_health = 5
+
+[node name="AttackRateTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ComboRateTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="ComboDelayTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="WeaponStreamPlayer" type="AudioStreamPlayer2D" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("4_ovg4i")
+volume_db = -6.0
+max_distance = 640.0
+attenuation = 3.0
+max_polyphony = 5
+bus = &"SFX"
+
+[node name="AudioListener2D" type="AudioListener2D" parent="Audio"]
+unique_name_in_owner = true
+
+[node name="HitStreamPlayer" type="AudioStreamPlayer2D" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("5_7wli1")
+volume_db = -1.0
+max_distance = 640.0
+attenuation = 3.0
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="ActivationArea" type="Area2D" parent="."]
+position = Vector2(0, -9)
+collision_layer = 8
+collision_mask = 0
+
+[node name="ActivationAreaCollisionShape" type="CollisionShape2D" parent="ActivationArea"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_8akj5")
+
+[node name="PickupArea" type="Area2D" parent="."]
+position = Vector2(0, -9)
+collision_layer = 128
+collision_mask = 0
+
+[node name="PickupAreaCollisionShape" type="CollisionShape2D" parent="PickupArea"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_8akj5")
+
+[node name="DirectionArrow" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.541176)
+texture = SubResource("AtlasTexture_knby6")
+offset = Vector2(16, 0)
+
+[node name="Visuals" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="ShadowSprite" type="Sprite2D" parent="Visuals"]
+modulate = Color(0, 0, 0, 0.6)
+texture = ExtResource("7_j0oqr")
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="Visuals"]
+unique_name_in_owner = true
+self_modulate = Color(0.08, 0.08, 0.08, 1)
+material = SubResource("ShaderMaterial_w3p2j")
+sprite_frames = ExtResource("15_yywfu")
+centered = false
+offset = Vector2(-8, -16)
+
+[node name="WeaponRoot" type="Node2D" parent="Visuals/PlayerSprite"]
+unique_name_in_owner = true
+position = Vector2(0, -5)
+
+[node name="WeaponAnimationRoot" type="Node2D" parent="Visuals/PlayerSprite/WeaponRoot"]
+
+[node name="WeaponSprite" type="Sprite2D" parent="Visuals/PlayerSprite/WeaponRoot/WeaponAnimationRoot"]
+unique_name_in_owner = true
+centered = false
+offset = Vector2(-14, -7)
+
+[node name="MeleeOrigin" type="Marker2D" parent="Visuals/PlayerSprite/WeaponRoot/WeaponAnimationRoot"]
+unique_name_in_owner = true
+position = Vector2(20, 0)
+
+[node name="ProjectileOrigin" type="Marker2D" parent="Visuals/PlayerSprite/WeaponRoot/WeaponAnimationRoot"]
+unique_name_in_owner = true
+position = Vector2(10, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_1hmtu")
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("6_bj7e2")]
+position = Vector2(0, -5)
+collision_mask = 4
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_knby6")
+
+[node name="AttackCooldownProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(16, 2)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = 1.0
+offset_right = 8.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxTexture_j0oqr")
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="DisplayNameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 16)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 3.0
+offset_right = 64.0
+offset_bottom = 19.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Display Name"
+horizontal_alignment = 1
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("10_ovg4i")
