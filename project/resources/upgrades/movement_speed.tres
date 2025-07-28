@@ -7,6 +7,6 @@ script = ExtResource("1_f4p5l")
 id = "movement_speed"
 max_quantiy = 0
 weight = 10
-display_name = "Increased Speed"
+display_name = "Move Speed Up"
 description = "Movement speed increased by 15%."
 metadata/_custom_type_script = "uid://bvdwb32lirvms"
